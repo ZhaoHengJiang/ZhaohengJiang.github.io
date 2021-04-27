@@ -4,14 +4,18 @@
   <meta charset="utf-8">
   
   
-  <title>ZiggyJiang的博客</title>
+  <title>Go&#39;s Declaration Syntax翻译 | ZiggyJiang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ZiggyJiang的博客">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="Go的语法声明原文连接 介绍刚接触Go语言的程序员会奇怪为什么Go的语法声明与传统的基于C的语言有所不同，本文将对比两种方法并且解释Go语法声明的原因。 C语法让我们先看看C语言语法。不同于额外的声明类型语法，C的声明表达式同时包含声明的变量和声明的类型。例子如下： 1int x;  上面这行代码声明了一个int类型的变量x。通常，为了弄清楚如何编写新变量的类型，可以先写一个包含基本类型的变量的表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go&#39;s Declaration Syntax翻译">
+<meta property="og:url" content="http://example.com/2021/04/26/goDeclarationSyntax/index.html">
 <meta property="og:site_name" content="ZiggyJiang的博客">
+<meta property="og:description" content="Go的语法声明原文连接 介绍刚接触Go语言的程序员会奇怪为什么Go的语法声明与传统的基于C的语言有所不同，本文将对比两种方法并且解释Go语法声明的原因。 C语法让我们先看看C语言语法。不同于额外的声明类型语法，C的声明表达式同时包含声明的变量和声明的类型。例子如下： 1int x;  上面这行代码声明了一个int类型的变量x。通常，为了弄清楚如何编写新变量的类型，可以先写一个包含基本类型的变量的表">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:tag" content="数据库 C++ Golang  个人思考">
+<meta property="article:published_time" content="2021-04-26T12:14:01.000Z">
+<meta property="article:modified_time" content="2021-04-27T13:57:01.837Z">
+<meta property="article:tag" content="Go">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="ZiggyJiang的博客" type="application/atom+xml">
@@ -73,9 +77,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-goDeclarationSyntax" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-goDeclarationSyntax" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/04/26/goDeclarationSyntax/" class="article-date">
   <time class="dt-published" datetime="2021-04-26T12:14:01.000Z" itemprop="datePublished">2021-04-26</time>
@@ -88,8 +90,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/26/goDeclarationSyntax/">Go&#39;s Declaration Syntax翻译</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      Go&#39;s Declaration Syntax翻译
     </h1>
   
 
@@ -197,168 +199,19 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-hexo-img" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/26/hexo-img/" class="article-date">
-  <time class="dt-published" datetime="2021-04-26T10:00:40.000Z" itemprop="datePublished">2021-04-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/26/hexo-img/">hexo图片插入</a>
-    </h1>
+    <a href="/2021/04/26/hexo-img/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">hexo图片插入</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="相对路径本地引用"><a href="#相对路径本地引用" class="headerlink" title="相对路径本地引用"></a>相对路径本地引用</h2><p>文章的图片目录可以通过hexo配置文件_config.yml来生成</p>
-<p><code>post_asset_folder: true</code></p>
-<p>将该项设置为true后，执行命令<code>$ hexo new post_name</code>，会在source/_posts中生成与文章同名的文件夹post_name。将图片资源放在post_name中，文章就可以使用相对路径引用图片资源了。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](image.jpg)</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="标签插件语法引用"><a href="#标签插件语法引用" class="headerlink" title="标签插件语法引用"></a>标签插件语法引用</h2><p>相对路径方法的图片不会在首页预览页显示。如果希望图片在文章和首页中同时显示，可以使用标签插件语法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 本地图片资源，不限制图片尺寸</span><br><span class="line">&#123;% asset_img JoyDivision.jpeg Joy Division %&#125;</span><br><span class="line"># 网络图片资源，限制图片显示尺寸</span><br><span class="line">&#123;% img http:&#x2F;&#x2F;5b0988e595225.cdn.sohucs.com&#x2F;images&#x2F;20180501&#x2F;e6455d8a449045fab6b61b383ec59d70.jpeg 300 500 Joy Division %&#125;</span><br></pre></td></tr></table></figure>
-
-<p>结果如下所示</p>
-<img src="/2021/04/26/hexo-img/JoyDivision.jpeg" class="" title="Joy Division">
-
-<img src="http://5b0988e595225.cdn.sohucs.com/images/20180501/e6455d8a449045fab6b61b383ec59d70.jpeg" class="" width="300" height="500" title="Joy Division">
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/26/hexo-img/" data-id="cknyflex100007ov3bod40vil" data-title="hexo图片插入" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
-    <article id="post-hexo-grammar" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/26/hexo-grammar/" class="article-date">
-  <time class="dt-published" datetime="2021-04-26T05:21:21.000Z" itemprop="datePublished">2021-04-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/26/hexo-grammar/">hexo常见语法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><p><code>hexo server</code> hexo会监视文件变动并自动更新，无需重启服务器</p>
-<p><code>hexo server -s</code> 静态模式</p>
-<p><code>hexo server -p 5000</code> 更改端口</p>
-<p><code>hexo server -i 192.168.1.1</code> 自定义IP</p>
-<p><code>hexo clean</code> 清除缓存</p>
-<p><code>hexo g</code> 生成静态网页</p>
-<p><code>hexo d</code> 开始部署</p>
-<p><code>hexo generate --deploy</code> 生成静态网页并部署</p>
-<h2 id="写作"><a href="#写作" class="headerlink" title="写作"></a>写作</h2><p><code>hexo new [layout] &lt;title&gt;</code> 新建文件</p>
-<table>
-<thead>
-<tr>
-<th>布局（layout）</th>
-<th>路径</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>post</code> 文章</td>
-<td><code>source/_posts</code></td>
-</tr>
-<tr>
-<td><code>page</code> 页面</td>
-<td><code>source</code></td>
-</tr>
-<tr>
-<td><code>draft</code> 草稿</td>
-<td><code>source/_draft</code></td>
-</tr>
-</tbody></table>
-<p><code>hexo public [layout] &lt;draft-title&gt;</code> 发布草稿</p>
-<p>草稿默认不会显示在页面中，您可在执行时加上 <code>--draft</code> 参数，或是把 <code>render_drafts</code> 参数设为 <code>true</code> 来预览草稿。</p>
-<h3 id="文件名称"><a href="#文件名称" class="headerlink" title="文件名称"></a>文件名称</h3><p>hexo 默认以标题做为文件名称，但您可编辑 <code>new_post_name</code> 参数来改变默认的文件名称，举例来说，设为 <code>:year-:month-:day-:title.md</code> 可让您更方便的通过日期来管理文章。</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>:title</code></td>
-<td>标题（小写，空格会被替换为短杠）</td>
-</tr>
-<tr>
-<td><code>:year</code></td>
-<td>建立的年份，比如，<code>2021</code></td>
-</tr>
-<tr>
-<td><code>:month</code></td>
-<td>建立的月份（有前导零），比如，<code>04</code></td>
-</tr>
-<tr>
-<td><code>:i_month</code></td>
-<td>建立的月份（无前导零），比如，<code>4</code></td>
-</tr>
-<tr>
-<td><code>:day</code></td>
-<td>建立的日期（有前导零），比如，<code>07</code></td>
-</tr>
-<tr>
-<td><code>:i_day</code></td>
-<td>建立的日期（无前导零），比如，<code>7</code></td>
-</tr>
-</tbody></table>
-<h3 id="推送到服务器上"><a href="#推送到服务器上" class="headerlink" title="推送到服务器上"></a>推送到服务器上</h3><p><code>hexo g</code> 生成静态网页</p>
-<p><code>hexo d</code> 开始部署</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/26/hexo-grammar/" data-id="cknycgxz30000rsv388vpgneh" data-title="hexo常见语法" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
 </section>

@@ -4,14 +4,18 @@
   <meta charset="utf-8">
   
   
-  <title>ZiggyJiang的博客</title>
+  <title>Go闭包 | ZiggyJiang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ZiggyJiang的博客">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="闭包的定义闭包是由&#x3D;&#x3D;函数&#x3D;&#x3D;及其相关的&#x3D;&#x3D;引用环境&#x3D;&#x3D;组合而成，举个例子 12345678910111213141516171819202122232425262728package mainimport (	&quot;fmt&quot;)func normalFunc(a int, x *int) int &amp;#123;	(*x)++	return a + *x&amp;#125;func Closu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go闭包">
+<meta property="og:url" content="http://example.com/2021/04/29/GoClosure/index.html">
 <meta property="og:site_name" content="ZiggyJiang的博客">
+<meta property="og:description" content="闭包的定义闭包是由&#x3D;&#x3D;函数&#x3D;&#x3D;及其相关的&#x3D;&#x3D;引用环境&#x3D;&#x3D;组合而成，举个例子 12345678910111213141516171819202122232425262728package mainimport (	&quot;fmt&quot;)func normalFunc(a int, x *int) int &amp;#123;	(*x)++	return a + *x&amp;#125;func Closu">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:tag" content="数据库 C++ Golang  个人思考">
+<meta property="article:published_time" content="2021-04-29T13:41:56.000Z">
+<meta property="article:modified_time" content="2021-05-04T19:10:33.798Z">
+<meta property="article:tag" content="Go">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="ZiggyJiang的博客" type="application/atom+xml">
@@ -73,123 +77,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-unsafePointerUintptr" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/05/02/unsafePointerUintptr/" class="article-date">
-  <time class="dt-published" datetime="2021-05-02T13:44:47.000Z" itemprop="datePublished">2021-05-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/05/02/unsafePointerUintptr/">unsafePointerUintptr</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/05/02/unsafePointerUintptr/" data-id="ckoaeq7vd0002p8v3gr2c25zg" data-title="unsafePointerUintptr" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-GoInterface" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/05/01/GoInterface/" class="article-date">
-  <time class="dt-published" datetime="2021-05-01T07:39:02.000Z" itemprop="datePublished">2021-05-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/05/01/GoInterface/">GoInterface</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/05/01/GoInterface/" data-id="ckoaeq7ve0004p8v313lx3zxg" data-title="GoInterface" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-GoValueReceiverVSPointerReceover" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/30/GoValueReceiverVSPointerReceover/" class="article-date">
-  <time class="dt-published" datetime="2021-04-30T12:21:11.000Z" itemprop="datePublished">2021-04-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/30/GoValueReceiverVSPointerReceover/">GoValueReceiverVSPointerReceover</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/30/GoValueReceiverVSPointerReceover/" data-id="ckoaeq7v80000p8v3c0ft1qwd" data-title="GoValueReceiverVSPointerReceover" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-GoClosure" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-GoClosure" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/04/29/GoClosure/" class="article-date">
   <time class="dt-published" datetime="2021-04-29T13:41:56.000Z" itemprop="datePublished">2021-04-29</time>
@@ -202,8 +90,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/29/GoClosure/">Go闭包</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      Go闭包
     </h1>
   
 
@@ -299,335 +187,28 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-multiple-results" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/28/multiple-results/" class="article-date">
-  <time class="dt-published" datetime="2021-04-27T16:28:10.000Z" itemprop="datePublished">2021-04-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <a href="/2021/04/30/GoValueReceiverVSPointerReceover/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/28/multiple-results/">Go函数多值返回</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
+          GoValueReceiverVSPointerReceover
         
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/28/multiple-results/" data-id="ckoaeq7vc0001p8v3d73w0fhc" data-title="Go函数多值返回" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/" rel="tag">Go</a></li></ul>
+      </div>
+    </a>
+  
+  
+    <a href="/2021/04/28/multiple-results/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Go函数多值返回</div>
+    </a>
+  
+</nav>
 
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
-    <article id="post-goDeclarationSyntax" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/26/goDeclarationSyntax/" class="article-date">
-  <time class="dt-published" datetime="2021-04-26T12:14:01.000Z" itemprop="datePublished">2021-04-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/26/goDeclarationSyntax/">Go&#39;s Declaration Syntax翻译</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Go的语法声明"><a href="#Go的语法声明" class="headerlink" title="Go的语法声明"></a>Go的语法声明</h1><p><a target="_blank" rel="noopener" href="https://blog.go-zh.org/gos-declaration-syntax">原文连接</a></p>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>刚接触Go语言的程序员会奇怪为什么Go的语法声明与传统的基于C的语言有所不同，本文将对比两种方法并且解释Go语法声明的原因。</p>
-<h2 id="C语法"><a href="#C语法" class="headerlink" title="C语法"></a>C语法</h2><p>让我们先看看C语言语法。不同于额外的声明类型语法，C的声明表达式同时包含声明的变量和声明的类型。例子如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x;</span><br></pre></td></tr></table></figure>
-
-<p>上面这行代码声明了一个int类型的变量x。通常，为了弄清楚如何编写新变量的类型，可以先写一个包含基本类型的变量的表达式，然后将基本类型放在左侧，变量表达式放在右侧。</p>
-<p>因此，下面的声明</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">3</span>];</span><br></pre></td></tr></table></figure>
-
-<p>描述的是p是一个指向int类型的指针，因为’*p’的类型是int。而a是一个int类型的数组，因为’a[3]’的类型是int。</p>
-<p>那函数呢？最开始的时候，C的函数声明是将参数的类型写在括号外，如下所示：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(argc, argv)</span></span></span><br><span class="line"><span class="function">	<span class="keyword">int</span> argc</span>;</span><br><span class="line">	<span class="keyword">char</span> *argv[];</span><br><span class="line">&#123; <span class="comment">/*...*/</span> &#125;</span><br></pre></td></tr></table></figure>
-
-<p>现在大家比较喜欢习惯写成这样：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span>&#123; <span class="comment">/*...*/</span> &#125;</span><br></pre></td></tr></table></figure>
-
-<p>但是基本结构都是一样的。</p>
-<p>对于简单的类型来说C的巧妙的语法能清楚的表达含义，但是一旦类型变得复杂就会令人困惑了/非常经典的一个例子就是声明一个函数指针。遵顼C的规则，会得到下面这种写法：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> (*fp)(<span class="keyword">int</span> a, <span class="keyword">int</span> b);</span><br></pre></td></tr></table></figure>
-
-<p>fp是一个指向函数的指针，表达式<code>(*fp)(a,b)</code>会调用函数并返回一个int类型的值。那如果fp的其中一个参数本身也是一个函数呢？</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> (*fp)(<span class="keyword">int</span> (*ff)(<span class="keyword">int</span> x, <span class="keyword">int</span> y), <span class="keyword">int</span> b)</span><br></pre></td></tr></table></figure>
-
-<p>表达式变得难以阅读了。</p>
-<p>当然，我们可以在声明一个函数的时候去掉参数名，那么main函数可以声明成：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">char</span> *[])</span></span></span><br></pre></td></tr></table></figure>
-
-<p>让我们回想下，argv是这样声明的，</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *agrv[]</span><br></pre></td></tr></table></figure>
-
-<p><code>char *[]</code>删除了参数声明中间的变量名字<code>agrv</code>，以构造对应的类型。该方法的声明并不易懂，将参数变量名去掉情况的fp函数声明如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> (*fp)(<span class="keyword">int</span> (*)(<span class="keyword">int</span>, <span class="keyword">int</span>), <span class="keyword">int</span>)</span><br></pre></td></tr></table></figure>
-
-<p>再进一步，如果返回值也是一个函数指针呢？</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> (*(*fp)(<span class="keyword">int</span> (*)(<span class="keyword">int</span>, <span class="keyword">int</span>), <span class="keyword">int</span>))(<span class="keyword">int</span>, <span class="keyword">int</span>)</span><br></pre></td></tr></table></figure>
-
-<p>这完全无法理解fp是什么含义。</p>
-<p>你自己也可以构造出更多这样的例子，但这些都说明C的声明语法可能引入的一些困难。</p>
-<p>不过还有一点需要提出。因为类型和声明的语法是相同的，所以很难解析中间类型的表达式。这就是为什么C的类型转换总是用括号</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">int</span>)M_PI</span><br></pre></td></tr></table></figure>
-
-<h2 id="GO语法"><a href="#GO语法" class="headerlink" title="GO语法"></a>GO语法</h2><p>非C家族的编程语言通常使用不同的声明类型的语法：变量名通常放在前面，然后紧跟一个冒号。因此上面的例子就变成了这样：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x: <span class="keyword">int</span></span><br><span class="line">p: pointer to <span class="keyword">int</span></span><br><span class="line">a: array[<span class="number">3</span>] of <span class="keyword">int</span></span><br></pre></td></tr></table></figure>
-
-<p>这些声明是明确详细的。Go语言从中得到了启发，但为了简洁起见，删除了冒号和一些关键字：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x <span class="keyword">int</span></span><br><span class="line">p *<span class="keyword">int</span></span><br><span class="line">a [<span class="number">3</span>]<span class="keyword">int</span></span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>[3]int</code>与如何在表达式中使用a，这两者似乎没有直接的对应。（后面一小节中我们会讲到  指针。）你可以通过单独的语法来获得清晰的结果。</p>
-<p>现在考虑下函数。让我们把这个声明写成Go的形式，尽管在Go中真正的main函数是没有入参的：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">(argc <span class="keyword">int</span>, argv []<span class="keyword">string</span>)</span> <span class="title">int</span></span></span><br></pre></td></tr></table></figure>
-
-<p>表面上和C语言并没有什么不同，除了将<code>char[]</code>改成了字符串形式。从左往右读起来很顺畅。</p>
-<p>即便舍去了变量名还是很明确——因为对于类型声明上没有位置的变化，所以没有什么困惑。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span>, []<span class="keyword">string</span>)</span> <span class="title">int</span></span></span><br></pre></td></tr></table></figure>
-
-<p>就算类型变得越来越复杂，这种方式还是能清晰地表达。举个声明函数变量的例子（类似在C中的函数指针）：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f <span class="function"><span class="keyword">func</span><span class="params">(<span class="keyword">func</span>(intm <span class="keyword">int</span>)</span> <span class="title">int</span>, <span class="title">int</span>) <span class="title">int</span></span></span><br></pre></td></tr></table></figure>
-
-<p>或者如果f返回的也是一个函数：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f <span class="function"><span class="keyword">func</span><span class="params">(<span class="keyword">func</span>(<span class="keyword">int</span>, <span class="keyword">int</span>)</span> <span class="title">int</span>, <span class="title">int</span>) <span class="title">func</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span> <span class="title">int</span></span></span><br></pre></td></tr></table></figure>
-
-<p>从左到右阅读依然流畅。</p>
-<p>类型和表达式的语法的不同使得在Go中编写和调用闭包函数变得简单：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum := <span class="function"><span class="keyword">func</span><span class="params">(a, b <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123; <span class="keyword">return</span> a + b &#125; (<span class="number">3</span>,<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><p>观察下数组和切片，举个例子，Go的类型语法将方括号放在类型的左边，但是赋值表达式语法却是放在表达式的右边：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a []<span class="keyword">int</span></span><br><span class="line">x = a[<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
-
-<p>为了让大家有一种熟悉的感觉，Go的指针同样延续C语言中的*符号，但是不能简单的将指针类型也反转以下，所以指针使用方式如下：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p *<span class="keyword">int</span></span><br><span class="line">x = *p</span><br></pre></td></tr></table></figure>
-
-<p>我们不能简单粗暴的改成这样：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p *<span class="keyword">int</span></span><br><span class="line">x = p*</span><br></pre></td></tr></table></figure>
-
-<p>因为*后缀会与乘法相混淆。Pascal语言中的指针^可以不用修改：</p>
-<figure class="highlight pascal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p ^int</span><br><span class="line">x = p^</span><br></pre></td></tr></table></figure>
-
-<p>或许设计Go的时候可以这样（为异或选择其他运算符），因为*前缀的类型和表达式在许多方面让事情变复杂。例如，一个这样写的例子：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[]<span class="keyword">int</span>(<span class="string">&quot;hi&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>作为转换，如果以*起始必须加上括号：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(*<span class="keyword">int</span>)(<span class="literal">nil</span>)</span><br></pre></td></tr></table></figure>
-
-<p>如果Go可以放弃*作为指针语法，那么可以不需要这些括号。（但也只是如果…）</p>
-<p>为此Go的指针语法与C家族有所牵扯，但是这些联系意味着我们无法完全摆脱使用括号消除语法中类型和表示歧义的麻烦。</p>
-<p>总而言之，我们认为Go的类型语法比C的语法更容易理解，尤其是当情况变得复杂时。</p>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>Go的声明从左往右读。有人提到C是螺旋式读取！请参阅David Anderson的<a target="_blank" rel="noopener" href="http://c-faq.com/decl/spiral.anderson.html">“顺时针/螺旋规则”</a>。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/26/goDeclarationSyntax/" data-id="cko03fx370000xkv3fhcd538j" data-title="Go&#39;s Declaration Syntax翻译" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/" rel="tag">Go</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hexo-img" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/26/hexo-img/" class="article-date">
-  <time class="dt-published" datetime="2021-04-26T10:00:40.000Z" itemprop="datePublished">2021-04-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/26/hexo-img/">hexo图片插入</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="相对路径本地引用"><a href="#相对路径本地引用" class="headerlink" title="相对路径本地引用"></a>相对路径本地引用</h2><p>文章的图片目录可以通过hexo配置文件_config.yml来生成</p>
-<p><code>post_asset_folder: true</code></p>
-<p>将该项设置为true后，执行命令<code>$ hexo new post_name</code>，会在source/_posts中生成与文章同名的文件夹post_name。将图片资源放在post_name中，文章就可以使用相对路径引用图片资源了。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](image.jpg)</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="标签插件语法引用"><a href="#标签插件语法引用" class="headerlink" title="标签插件语法引用"></a>标签插件语法引用</h2><p>相对路径方法的图片不会在首页预览页显示。如果希望图片在文章和首页中同时显示，可以使用标签插件语法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 本地图片资源，不限制图片尺寸</span><br><span class="line">&#123;% asset_img JoyDivision.jpeg Joy Division %&#125;</span><br><span class="line"># 网络图片资源，限制图片显示尺寸</span><br><span class="line">&#123;% img http:&#x2F;&#x2F;5b0988e595225.cdn.sohucs.com&#x2F;images&#x2F;20180501&#x2F;e6455d8a449045fab6b61b383ec59d70.jpeg 300 500 Joy Division %&#125;</span><br></pre></td></tr></table></figure>
-
-<p>结果如下所示</p>
-<img src="/2021/04/26/hexo-img/JoyDivision.jpeg" class="" title="Joy Division">
-
-<img src="http://5b0988e595225.cdn.sohucs.com/images/20180501/e6455d8a449045fab6b61b383ec59d70.jpeg" class="" width="300" height="500" title="Joy Division">
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/26/hexo-img/" data-id="cknyflex100007ov3bod40vil" data-title="hexo图片插入" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hexo-grammar" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/26/hexo-grammar/" class="article-date">
-  <time class="dt-published" datetime="2021-04-26T05:21:21.000Z" itemprop="datePublished">2021-04-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/26/hexo-grammar/">hexo常见语法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><p><code>hexo server</code> hexo会监视文件变动并自动更新，无需重启服务器</p>
-<p><code>hexo server -s</code> 静态模式</p>
-<p><code>hexo server -p 5000</code> 更改端口</p>
-<p><code>hexo server -i 192.168.1.1</code> 自定义IP</p>
-<p><code>hexo clean</code> 清除缓存</p>
-<p><code>hexo g</code> 生成静态网页</p>
-<p><code>hexo d</code> 开始部署</p>
-<p><code>hexo generate --deploy</code> 生成静态网页并部署</p>
-<h2 id="写作"><a href="#写作" class="headerlink" title="写作"></a>写作</h2><p><code>hexo new [layout] &lt;title&gt;</code> 新建文件</p>
-<table>
-<thead>
-<tr>
-<th>布局（layout）</th>
-<th>路径</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>post</code> 文章</td>
-<td><code>source/_posts</code></td>
-</tr>
-<tr>
-<td><code>page</code> 页面</td>
-<td><code>source</code></td>
-</tr>
-<tr>
-<td><code>draft</code> 草稿</td>
-<td><code>source/_draft</code></td>
-</tr>
-</tbody></table>
-<p><code>hexo public [layout] &lt;draft-title&gt;</code> 发布草稿</p>
-<p>草稿默认不会显示在页面中，您可在执行时加上 <code>--draft</code> 参数，或是把 <code>render_drafts</code> 参数设为 <code>true</code> 来预览草稿。</p>
-<h3 id="文件名称"><a href="#文件名称" class="headerlink" title="文件名称"></a>文件名称</h3><p>hexo 默认以标题做为文件名称，但您可编辑 <code>new_post_name</code> 参数来改变默认的文件名称，举例来说，设为 <code>:year-:month-:day-:title.md</code> 可让您更方便的通过日期来管理文章。</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>:title</code></td>
-<td>标题（小写，空格会被替换为短杠）</td>
-</tr>
-<tr>
-<td><code>:year</code></td>
-<td>建立的年份，比如，<code>2021</code></td>
-</tr>
-<tr>
-<td><code>:month</code></td>
-<td>建立的月份（有前导零），比如，<code>04</code></td>
-</tr>
-<tr>
-<td><code>:i_month</code></td>
-<td>建立的月份（无前导零），比如，<code>4</code></td>
-</tr>
-<tr>
-<td><code>:day</code></td>
-<td>建立的日期（有前导零），比如，<code>07</code></td>
-</tr>
-<tr>
-<td><code>:i_day</code></td>
-<td>建立的日期（无前导零），比如，<code>7</code></td>
-</tr>
-</tbody></table>
-<h3 id="推送到服务器上"><a href="#推送到服务器上" class="headerlink" title="推送到服务器上"></a>推送到服务器上</h3><p><code>hexo g</code> 生成静态网页</p>
-<p><code>hexo d</code> 开始部署</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/26/hexo-grammar/" data-id="cknycgxz30000rsv388vpgneh" data-title="hexo常见语法" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
 </section>

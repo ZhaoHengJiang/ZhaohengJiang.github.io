@@ -75,6 +75,181 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-GoInterface" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/10/GoInterface/" class="article-date">
+  <time class="dt-published" datetime="2021-05-10T03:32:25.000Z" itemprop="datePublished">2021-05-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/10/GoInterface/">初识Go接口</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>Go语言中的接口是一组方法的签名，接口可以视为一个中间层，将调用方法和具体实现分离，解除上下游的耦合。例如使用统一的接口将数据写入数据库，可以忽略底层使用何种数据库，是采取何种写入方式。</p>
+<h2 id="隐式接口"><a href="#隐式接口" class="headerlink" title="隐式接口"></a>隐式接口</h2><p>很多面向对象语言都有接口这一概念，例如 Java 和 C#。Java 的接口不仅可以定义方法签名，还可以定义变量，这些定义的变量可以直接在实现接口的类中使用，这里简单介绍一下 Java 中的接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyInterface</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String hello = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码定义了一个必须实现的方法 <code>sayHello</code> 和一个会注入到实现类的变量 <code>hello</code>。在下面的代码中，<code>MyInterfaceImpl</code> 实现了 <code>MyInterface</code> 接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyInterfaceImpl</span> <span class="keyword">implements</span> <span class="title">MyInterface</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(MyInterface.hello);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Java 中的类必须通过上述方式显式地声明实现的接口，但是在 Go 语言中实现接口就不需要使用类似的方式。首先，我们简单了解一下在 Go 语言中如何定义接口。定义接口需要使用 <code>interface</code> 关键字，在接口中我们只能定义方法签名，不能包含成员变量，一个常见的 Go 语言接口是这样的：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> error <span class="keyword">interface</span> &#123;</span><br><span class="line">	Error() <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果一个类型需要实现 <code>error</code> 接口，那么它只需要实现 <code>Error() string</code> 方法，下面的 <code>RPCError</code> 结构体就是 <code>error</code> 接口的一个实现：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> RPCError <span class="keyword">struct</span> &#123;</span><br><span class="line">	Code    <span class="keyword">int64</span></span><br><span class="line">	Message <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *RPCError)</span> <span class="title">Error</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;%s, code=%d&quot;</span>, e.Message, e.Code)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对比 Java 的接口调用，可以发现上述代码根本就没有 <code>error</code> 接口的影子，这是为什么呢？Go 语言中<strong>接口的实现都是隐式的</strong>，我们只需要实现 <code>Error() string</code> 方法就实现了 <code>error</code> 接口。Go 语言实现接口的方式与 Java 完全不同：</p>
+<ul>
+<li>在 Java 中：实现接口需要显式地声明接口并实现所有方法；</li>
+<li>在 Go 中：实现接口的所有方法就隐式地实现了接口；</li>
+</ul>
+<h2 id="接口检查"><a href="#接口检查" class="headerlink" title="接口检查"></a>接口检查</h2><p>我们使用上述 <code>RPCError</code> 结构体时并不关心它实现了哪些接口，Go 语言只会在传递参数、返回参数以及变量赋值时才会对某个类型是否实现接口进行检查，这里举几个例子来演示发生接口类型检查的时机：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> rpcErr error = NewRPCError(<span class="number">400</span>, <span class="string">&quot;unknown err&quot;</span>) <span class="comment">// typecheck1</span></span><br><span class="line">	err := AsErr(rpcErr) <span class="comment">// typecheck2</span></span><br><span class="line">	<span class="built_in">println</span>(err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewRPCError</span><span class="params">(code <span class="keyword">int64</span>, msg <span class="keyword">string</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;RPCError&#123; <span class="comment">// typecheck3</span></span><br><span class="line">		Code:    code,</span><br><span class="line">		Message: msg,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AsErr</span><span class="params">(err error)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Go</p>
+<p>Go 语言在<a target="_blank" rel="noopener" href="https://draveness.me/golang/docs/part1-prerequisite/ch02-compile/golang-compile-intro/">编译期间</a>对代码进行类型检查，上述代码总共触发了三次类型检查：</p>
+<ul>
+<li><strong>赋值</strong>：将 <code>*RPCError</code> 类型的变量赋值给 <code>error</code> 类型的变量 <code>rpcErr</code>；</li>
+<li><strong>传参</strong>：将 <code>*RPCError</code> 类型的变量 <code>rpcErr</code> 传递给签名中参数类型为 <code>error</code> 的 <code>AsErr</code> 函数；</li>
+<li><strong>返回</strong>：将 <code>*RPCError</code> 类型的变量从函数签名的返回值类型为 <code>error</code> 的 <code>NewRPCError</code> 函数中返回；</li>
+</ul>
+<p>从类型检查的过程来看，编译器仅在需要时才检查类型，类型实现接口时只需要实现接口中的全部方法，不需要像 Java 等编程语言中一样显式声明。</p>
+<h2 id="接口类型"><a href="#接口类型" class="headerlink" title="接口类型"></a>接口类型</h2><p>接口也是 Go 语言中的一种类型，不过有两种略微不同的接口，一种是带有一组方法的接口，另一种是不带任何方法的 <code>interface&#123;&#125;</code>：</p>
+<p>Go 语言使用 <a target="_blank" rel="noopener" href="https://draveness.me/golang/tree/runtime.iface"><code>runtime.iface</code></a> 表示第一种接口，使用 <a target="_blank" rel="noopener" href="https://draveness.me/golang/tree/runtime.eface"><code>runtime.eface</code></a> 表示第二种不包含任何方法的接口 <code>interface&#123;&#125;</code>，两种接口虽然都使用 <code>interface</code> 声明，但是由于后者在 Go 语言中很常见，所以在实现时使用了特殊的类型。</p>
+<p>需要注意的是，与 C 语言中的 <code>void *</code> 不同，<code>interface&#123;&#125;</code> 类型<strong>不是任意类型</strong>。如果我们将类型转换成了 <code>interface&#123;&#125;</code> 类型，变量在运行期间的类型也会发生变化，获取变量类型时会得到 <code>interface&#123;&#125;</code>。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">type</span> Test <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line">	v := Test&#123;&#125;</span><br><span class="line">	Print(v)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Print</span><span class="params">(v <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">	<span class="built_in">println</span>(v)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述函数不接受任意类型的参数，只接受 <code>interface&#123;&#125;</code> 类型的值，在调用 <code>Print</code> 函数时会对参数 <code>v</code> 进行类型转换，将原来的 <code>Test</code> 类型转换成 <code>interface&#123;&#125;</code> 类型，本节会在后面介绍类型转换的实现原理。</p>
+<h2 id="指针和接口"><a href="#指针和接口" class="headerlink" title="指针和接口"></a>指针和接口</h2><p>由之前的笔记可知，方法的接收者传参可以是值接收者，也可以是指针接收者。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c  Cat)</span> <span class="title">Quack</span></span> &#123;&#125;  <span class="comment">// 使用值接收者传参</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Cat)</span> <span class="title">Quack</span></span> &#123;&#125;  <span class="comment">// 使用指针接收者传参</span></span><br></pre></td></tr></table></figure>
+
+<p>接口的赋值有两种，一种是指针赋值，另一种是结构体赋值。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> d Duck = Cat&#123;&#125;      <span class="comment">// 使用结构体赋值接口</span></span><br><span class="line"><span class="keyword">var</span> d Duck = &amp;Cat&#123;&#125;     <span class="comment">// 使用结构体指针赋值接口</span></span><br></pre></td></tr></table></figure>
+
+<p>“方法接收者传参类型”和“赋值接口类型”两个维度共组成了四种情况，然而这四种情况不是都能通过编译器的检查：</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">值接收者传参</th>
+<th align="center">指针接收者传参</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">结构体赋值接口</td>
+<td align="center">通过</td>
+<td align="center">不通过</td>
+</tr>
+<tr>
+<td align="center">结构体指针赋值接口</td>
+<td align="center">通过</td>
+<td align="center">通过</td>
+</tr>
+</tbody></table>
+<p>四种中只有“使用指针接收者向方法传参”和”使用值接收者赋值接口”的搭配无法通过编译，其他的三种情况都可以正常执行。当”赋值接口的类型“和”方法接收者类型“时相同时，代码通过编译是理所应当的：</p>
+<ul>
+<li>方法接受者和接口赋值类型都是结构体；</li>
+<li>方法接受者和接口赋值类型都是结构体指针；</li>
+</ul>
+<p>而剩下的两种方式为什么一种能够通过编译，另一种无法通过编译呢？我们先来看一下能够通过编译的情况，即方法的接受者是值接收者，而赋值接口的是结构体指针：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Cat <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c Cat)</span> <span class="title">Quack</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;meow&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> c Duck = &amp;Cat&#123;&#125;</span><br><span class="line">	c.Quack()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>作为指针的 <code>&amp;Cat&#123;&#125;</code> 变量能够<strong>隐式地获取</strong>到指向的结构体，所以能在结构体上调用 <code>Walk</code> 和 <code>Quack</code> 方法。我们可以将这里的调用理解成 C 语言中的 <code>d-&gt;Walk()</code> 和 <code>d-&gt;Speak()</code>，它们都会先获取指向的结构体再执行对应的方法。</p>
+<p>但是如果我们将上述代码中方法的接受者和赋值接口的类型进行交换，代码就无法通过编译了：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Duck <span class="keyword">interface</span> &#123;</span><br><span class="line">	Quack()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Cat <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Cat)</span> <span class="title">Quack</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;meow&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> c Duck = Cat&#123;&#125;</span><br><span class="line">	c.Quack()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$ <span class="keyword">go</span> build <span class="keyword">interface</span>.<span class="keyword">go</span></span><br><span class="line">./<span class="keyword">interface</span>.<span class="keyword">go</span>:<span class="number">20</span>:<span class="number">6</span>: cannot use Cat literal (<span class="keyword">type</span> Cat) as <span class="keyword">type</span> Duck in assignment:</span><br><span class="line">	Cat does not implement Duck (Quack method has pointer receiver)</span><br></pre></td></tr></table></figure>
+
+<p>编译器会提醒我们：<code>Cat</code> 类型没有实现 <code>Duck</code> 接口，<code>Quack</code> 方法的接受者是指针。这两个报错对于刚刚接触 Go 语言的开发者比较难以理解，如果我们想要搞清楚这个问题，首先要知道 Go 语言在<a target="_blank" rel="noopener" href="https://draveness.me/golang/docs/part2-foundation/ch04-basic/golang-function-call/">传递参数</a>时都是传值的。</p>
+<p><img src="https://img.draveness.me/golang-interface-method-receiver.png" alt="golang-interface-method-receive"></p>
+<p>如上图所示，无论上述代码中初始化的变量 <code>c</code> 是 <code>Cat&#123;&#125;</code> 还是 <code>&amp;Cat&#123;&#125;</code>，使用 <code>c.Quack()</code> 调用方法时都会发生值拷贝：</p>
+<ul>
+<li>如上图左侧，对于 <code>&amp;Cat&#123;&#125;</code> 来说，这意味着拷贝一个新的 <code>&amp;Cat&#123;&#125;</code> 指针，这个指针与原来的指针指向一个相同并且唯一的结构体，所以编译器可以隐式的对变量解引用（dereference）获取指针指向的结构体；</li>
+<li>如上图右侧，对于 <code>Cat&#123;&#125;</code> 来说，这意味着 <code>Quack</code> 方法会接受一个全新的 <code>Cat&#123;&#125;</code>，因为方法的参数是 <code>*Cat</code>，编译器不会无中生有创建一个新的指针；即使编译器可以创建新指针，这个指针指向的也不是最初调用该方法的结构体；</li>
+</ul>
+<h2 id="nil和non-nil"><a href="#nil和non-nil" class="headerlink" title="nil和non-nil"></a>nil和non-nil</h2><p>我们可以通过一个例子理解<strong>Go 语言的接口类型不是任意类型</strong>这一句话，下面的代码在 <code>main</code> 函数中初始化了一个 <code>*TestStruct</code> 类型的变量，由于指针的零值是 <code>nil</code>，所以变量 <code>s</code> 在初始化之后也是 <code>nil</code>：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> TestStruct <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NilOrNot</span><span class="params">(v <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> v == <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> s *TestStruct</span><br><span class="line">	fmt.Println(s == <span class="literal">nil</span>)      <span class="comment">// #=&gt; true</span></span><br><span class="line">	fmt.Println(NilOrNot(s))   <span class="comment">// #=&gt; false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$ <span class="keyword">go</span> run main.<span class="keyword">go</span></span><br><span class="line"><span class="literal">true</span></span><br><span class="line"><span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>Go</p>
+<p>我们简单总结一下上述代码执行的结果：</p>
+<ul>
+<li>将上述变量与 <code>nil</code> 比较会返回 <code>true</code>；</li>
+<li>将上述变量传入 <code>NilOrNot</code> 方法并与 <code>nil</code> 比较会返回 <code>false</code>；</li>
+</ul>
+<p>出现上述现象的原因是 —— 调用 <code>NilOrNot</code> 函数时发生了<strong>隐式的类型转换</strong>，除了向方法传入参数之外，变量的赋值也会触发隐式类型转换。在类型转换时，<code>*TestStruct</code> 类型会转换成 <code>interface&#123;&#125;</code> 类型，转换后的变量不仅包含转换前的变量，还包含变量的类型信息 <code>TestStruct</code>，所以转换后的变量与 <code>nil</code> 不相等。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/05/10/GoInterface/" data-id="ckoaeq7ve0004p8v313lx3zxg" data-title="初识Go接口" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/" rel="tag">Go</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-GoReceiverInterface" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/09/GoReceiverInterface/" class="article-date">
+  <time class="dt-published" datetime="2021-05-09T08:19:35.000Z" itemprop="datePublished">2021-05-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/09/GoReceiverInterface/">Go值接收者和指针接收者</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Go值接收者和指针接收者"><a href="#Go值接收者和指针接收者" class="headerlink" title="Go值接收者和指针接收者"></a>Go值接收者和指针接收者</h2><p>Go没有类，但可以为结构体定义方法。方法就是一类带特殊的==接收者参数==的函数。方法的入参形式和函数一样可以分为指针传递和值传递。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;math&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Vertex <span class="keyword">struct</span> &#123;</span><br><span class="line">	X, Y <span class="keyword">float64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(v Vertex)</span> <span class="title">Abs</span><span class="params">()</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> math.Sqrt(v.X*v.X + v.Y*v.Y)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(v *Vertex)</span> <span class="title">PScale</span><span class="params">(f <span class="keyword">float64</span>)</span></span> &#123;</span><br><span class="line">	v.X = v.X * f</span><br><span class="line">	v.Y = v.Y * f</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(v Vertex)</span> <span class="title">VScale</span><span class="params">(f <span class="keyword">float64</span>)</span></span> &#123;</span><br><span class="line">	v.X = v.X * f</span><br><span class="line">	v.Y = v.Y * f</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	v := Vertex&#123;<span class="number">3</span>, <span class="number">4</span>&#125;</span><br><span class="line">	p := &amp;v</span><br><span class="line">    </span><br><span class="line">    v.VScale(<span class="number">10</span>) <span class="comment">//值调用者+值接收者</span></span><br><span class="line">	fmt.Println(v.Abs()) <span class="comment">//结果一：5</span></span><br><span class="line">    p.VScale(<span class="number">10</span>) <span class="comment">//指针调用者+值接收者</span></span><br><span class="line">	fmt.Println(v.Abs()) <span class="comment">//结果二：5</span></span><br><span class="line">    </span><br><span class="line">    p.PScale(<span class="number">10</span>) <span class="comment">//指针调用者+指针接收者</span></span><br><span class="line">	fmt.Println(v.Abs()) <span class="comment">//结果三：50</span></span><br><span class="line">	v.PScale(<span class="number">10</span>) <span class="comment">//值调用者+指针接收者</span></span><br><span class="line">	fmt.Println(v.Abs()) <span class="comment">//结果四：500</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以发现，值接收者和指针接收者的区别和普通函数的值传递一样。值接收者是传入接收者值的拷贝；指针接收者是传入接收者的地址，如“结果一”和“结果三“所示。</p>
+<p>但是，<code>p.VScale(10)</code>和<code>v.PScale(10)</code>的调用者与对应的接收者是不相同的，这是因为Go的语法糖将重定向为对应的调用者，如Go会将<code>p.VScale(10)</code>和<code>v.PScale(10)</code>分别解释为<code>(*p).VScale(10)</code>和<code>(&amp;v).PScale(10)</code>，因此结果仅与接收者的类型相关。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/05/09/GoReceiverInterface/" data-id="ckpdvj05000007wv38u0q8pae" data-title="Go值接收者和指针接收者" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/" rel="tag">Go</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-unsafePointerUintptr" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/05/02/unsafePointerUintptr/" class="article-date">
@@ -102,82 +277,6 @@
     </div>
     <footer class="article-footer">
       <a data-url="http://example.com/2021/05/02/unsafePointerUintptr/" data-id="ckoaeq7vd0002p8v3gr2c25zg" data-title="unsafePointerUintptr" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-GoInterface" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/05/01/GoInterface/" class="article-date">
-  <time class="dt-published" datetime="2021-05-01T07:39:02.000Z" itemprop="datePublished">2021-05-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/05/01/GoInterface/">GoInterface</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/05/01/GoInterface/" data-id="ckoaeq7ve0004p8v313lx3zxg" data-title="GoInterface" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-GoValueReceiverVSPointerReceover" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/30/GoValueReceiverVSPointerReceover/" class="article-date">
-  <time class="dt-published" datetime="2021-04-30T12:21:11.000Z" itemprop="datePublished">2021-04-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/30/GoValueReceiverVSPointerReceover/">GoValueReceiverVSPointerReceover</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/30/GoValueReceiverVSPointerReceover/" data-id="ckoaeq7v80000p8v3c0ft1qwd" data-title="GoValueReceiverVSPointerReceover" class="article-share-link">分享</a>
       
       
       
@@ -291,46 +390,6 @@
     </div>
     <footer class="article-footer">
       <a data-url="http://example.com/2021/04/29/GoClosure/" data-id="ckoaeq7vg0005p8v396cu1ovj" data-title="Go闭包" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/" rel="tag">Go</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-multiple-results" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/04/28/multiple-results/" class="article-date">
-  <time class="dt-published" datetime="2021-04-27T16:28:10.000Z" itemprop="datePublished">2021-04-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/04/28/multiple-results/">Go函数多值返回</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/04/28/multiple-results/" data-id="ckoaeq7vc0001p8v3d73w0fhc" data-title="Go函数多值返回" class="article-share-link">分享</a>
       
       
       
@@ -673,15 +732,15 @@
       <ul>
         
           <li>
+            <a href="/2021/05/10/GoInterface/">初识Go接口</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/09/GoReceiverInterface/">Go值接收者和指针接收者</a>
+          </li>
+        
+          <li>
             <a href="/2021/05/02/unsafePointerUintptr/">unsafePointerUintptr</a>
-          </li>
-        
-          <li>
-            <a href="/2021/05/01/GoInterface/">GoInterface</a>
-          </li>
-        
-          <li>
-            <a href="/2021/04/30/GoValueReceiverVSPointerReceover/">GoValueReceiverVSPointerReceover</a>
           </li>
         
           <li>
@@ -689,7 +748,7 @@
           </li>
         
           <li>
-            <a href="/2021/04/28/multiple-results/">Go函数多值返回</a>
+            <a href="/2021/04/26/goDeclarationSyntax/">Go&#39;s Declaration Syntax翻译</a>
           </li>
         
       </ul>
